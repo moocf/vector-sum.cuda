@@ -27,3 +27,35 @@ inline void try_cuda(cudaError err, const char* exp, const char* func, int line,
 // TRY( cudaDeviceSynchronize() );
 #define TRY(exp) TRY_CUDA(exp)
 #endif
+
+
+#ifndef CEILDIV
+// Computes rounded-up integer division.
+// ceildiv(6, 3) = 2
+// ceildiv(7, 3) = 3
+int ceildiv(int x, int y) {
+  return (x + y-1) / y;
+}
+
+// Computes rounded-up integer division.
+// CEILDIV(6, 3) = 2
+// CEILDIV(7, 3) = 3
+#define CEILDIV(x, y) ceildiv(x, y)
+#endif
+
+
+#ifndef PRINTVEC
+// Prints a vector.
+// printvec(x, 3) = {1, 2, 3}
+inline void printvec(int *x, int N) {
+  printf("{");
+  for (int i=0; i<N-1; i++)
+    printf("%d, ", x[i]);
+  if (N>0) printf("%d", x[N-1]);
+  printf("}");
+}
+
+// Prints a vector.
+// PRINTVEC(x, 3) = {1, 2, 3}
+#define PRINTVEC(x, N) printvec(x, N)
+#endif
