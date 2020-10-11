@@ -42,9 +42,10 @@ GPU vector-sum, chunked with interleaved streams ...
 Execution time: 7.2 ms
 ```
 
-See [main.cu] for code.
+See [main.cu] for code, [main.ipynb] for notebook.
 
 [main.cu]: main.cu
+[main.ipynb]: https://colab.research.google.com/drive/1d8TouY8FdadWOxPPWVjemS5hekFUTqzB?usp=sharing
 
 
 ### references
