@@ -6,10 +6,10 @@
   <ItemGroup>
     <ClInclude Include="support.h" />
     <ClInclude Include="_host.h">
-      <Filter>testcases</Filter>
+      <Filter>Test cases</Filter>
     </ClInclude>
     <ClInclude Include="_simple.h">
-      <Filter>testcases</Filter>
+      <Filter>Test cases</Filter>
     </ClInclude>
     <ClInclude Include="main.h" />
   </ItemGroup>
@@ -18,7 +18,7 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="testcases">
+    <Filter Include="Test cases">
       <UniqueIdentifier>{d6b758b9-0219-400e-aba4-f121e68b091e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
