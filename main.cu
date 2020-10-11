@@ -8,7 +8,7 @@
 #include "_streams_interleaved.h"
 
 
-// 1. Allocate space for 3 vectors A, X, Y (of length 1000000).
+// 1. Allocate space for 3 vectors A, X, Y (of length 2000000).
 // 2. Define vectors X and Y (A = X + Y will be computed).
 // 3. Calculate expected value for varifying results.
 // 4. Run vector sum on with various approaches.
