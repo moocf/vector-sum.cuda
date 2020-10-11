@@ -23,9 +23,23 @@ i: index into the vectors
 
 ```bash
 # OUTPUT
-a = {0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0}
-b = {0.0, -1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0, -9.0}
-c = {0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0}
+CPU vector-sum ...
+Execution time: 6.0 ms
+
+GPU vector-sum, simple ...
+Execution time: 6.7 ms
+
+GPU vector-sum, multiple ...
+Execution time: 7.2 ms
+
+GPU vector-sum, chunked with stream ...
+Execution time: 8.9 ms
+
+GPU vector-sum, chunked with streams ...
+Execution time: 9.5 ms
+
+GPU vector-sum, chunked with interleaved streams ...
+Execution time: 7.2 ms
 ```
 
 See [main.cu] for code.

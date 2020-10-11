@@ -85,6 +85,9 @@
     <ClInclude Include="_multiple.h" />
     <ClInclude Include="_host.h" />
     <ClInclude Include="_simple.h" />
+    <ClInclude Include="_stream.h" />
+    <ClInclude Include="_streams.h" />
+    <ClInclude Include="_streams_interleaved.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LICENSE" />

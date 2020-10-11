@@ -30,6 +30,11 @@ __global__ void kernel_multiple(float *a, float *x, float *y, int N) {
 // 3. Execute kernel with 256 threads per block, and max 4 blocks.
 // 4. Wait for kernel to complete, and copy A from device to host memory.
 // 5. Free A, X, Y allocated on GPU.
+//
+// a: output vector (x + y)
+// x: input vector 1
+// y: input vector 2
+// N: vector size (a, x, y)
 float run_multiple(float *a, float *x, float *y, int N) {
   size_t N1 = N * sizeof(float);
   

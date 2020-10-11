@@ -15,6 +15,15 @@
     <ClInclude Include="_multiple.h">
       <Filter>Test cases</Filter>
     </ClInclude>
+    <ClInclude Include="_stream.h">
+      <Filter>Test cases</Filter>
+    </ClInclude>
+    <ClInclude Include="_streams.h">
+      <Filter>Test cases</Filter>
+    </ClInclude>
+    <ClInclude Include="_streams_interleaved.h">
+      <Filter>Test cases</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="LICENSE" />

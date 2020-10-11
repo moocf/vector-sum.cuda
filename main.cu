@@ -3,18 +3,20 @@
 #include "_host.h"
 #include "_simple.h"
 #include "_multiple.h"
+#include "_stream.h"
+#include "_streams.h"
+#include "_streams_interleaved.h"
 
 
 // 1. Allocate space for 3 vectors A, X, Y (of length 1000000).
 // 2. Define vectors X and Y (A = X + Y will be computed).
 // 3. Calculate expected value for varifying results.
-// 4. Run vector sum on CPU.
-// 5. Run vector sum on GPU, simple.
-// 6. Run vector sum on GPU, multiple.
-// 7. Free vectors A, X, Y.
+// 4. Run vector sum on with various approaches.
+// 5. Free vectors A, X, Y.
 int main() {
-  int N = 1000000;                 // 1
-  size_t N1 = N * sizeof(int);     // 1
+  int N = 2000000;
+  int CHUNK = 65536;
+  size_t N1 = N * sizeof(float);
 
   float *a = (float*) malloc(N1);  // 1
   float *x = (float*) malloc(N1);  // 1
@@ -30,14 +32,23 @@ int main() {
   printf("CPU vector-sum ...\n");            // 4
   printrun(exp, a, N, run_host(a, x, y, N)); // 4
   
-  printf("GPU vector-sum, simple ...\n");      // 5
-  printrun(exp, a, N, run_simple(a, x, y, N)); // 5
+  printf("GPU vector-sum, simple ...\n");      // 4
+  printrun(exp, a, N, run_simple(a, x, y, N)); // 4
 
-  printf("GPU vector-sum, multiple ...\n");      // 6
-  printrun(exp, a, N, run_multiple(a, x, y, N)); // 6
+  printf("GPU vector-sum, multiple ...\n");      // 4
+  printrun(exp, a, N, run_multiple(a, x, y, N)); // 4
 
-  free(y); // 7
-  free(x); // 7
-  free(a); // 7
+  printf("GPU vector-sum, chunked with stream ...\n"); // 4
+  printrun(exp, a, N, run_stream(a, x, y, N, CHUNK));  // 4
+
+  printf("GPU vector-sum, chunked with streams ...\n"); // 4
+  printrun(exp, a, N, run_streams(a, x, y, N, CHUNK));  // 4
+
+  printf("GPU vector-sum, chunked with interleaved streams ...\n"); // 4
+  printrun(exp, a, N, run_streams_interleaved(a, x, y, N, CHUNK));  // 4
+
+  free(y); // 5
+  free(x); // 5
+  free(a); // 5
   return 0;
 }
