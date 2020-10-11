@@ -12,7 +12,7 @@
 // blockIdx.x:  block index, within grid (0 ... 2)
 // blockDim.x:  number of threads in a block (4)
 // i: index into the vectors
-__global__ void kernel(int *c, int *a, int *b, int N) {
+__global__ void kernel(float *c, float *a, float *b, int N) {
   int i = threadIdx.x + blockIdx.x * blockDim.x;
   if (i < N) c[i] = a[i] + b[i];
 }
@@ -26,17 +26,17 @@ __global__ void kernel(int *c, int *a, int *b, int N) {
 // 6. Wait for kernel to complete, and copy C from device to host memory.
 // 7. Validate if the vector sum is correct (on CPU).
 int main() {
-  int N = 10;                  // 1
-  size_t NB = N * sizeof(int); // 1
-  int *a = (int*) malloc(NB);  // 1
-  int *b = (int*) malloc(NB);  // 1
-  int *c = (int*) malloc(NB);  // 1
+  int N = 10;                      // 1
+  size_t NB = N * sizeof(int);     // 1
+  float *a = (float*) malloc(NB);  // 1
+  float *b = (float*) malloc(NB);  // 1
+  float *c = (float*) malloc(NB);  // 1
   for (int i=0; i<N; i++) { // 2
-    a[i] = 2*i;             // 2
-    b[i] = -i;              // 2
+    a[i] = (float) 2*i;     // 2
+    b[i] = (float) -i;      // 2
   }                         // 2
 
-  int *aD, *bD, *cD;          // 3
+  float *aD, *bD, *cD;        // 3
   TRY( cudaMalloc(&aD, NB) ); // 3
   TRY( cudaMalloc(&bD, NB) ); // 3
   TRY( cudaMalloc(&cD, NB) ); // 3
@@ -54,7 +54,7 @@ int main() {
 
   for (int i=0; i<N; i++) {  // 7
     if (c[i] == i) continue; // 7
-    fprintf(stderr, "%d + %d != %d (at component %d)\n", a[i], b[i], c[i], i);
+    fprintf(stderr, "%f + %f != %f (at component %d)\n", a[i], b[i], c[i], i);
   }
   return 0;
 }
