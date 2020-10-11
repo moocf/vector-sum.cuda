@@ -13,7 +13,7 @@
 // y: input vector 2
 // N: vector size (a, x, y)
 // C: chunk size (C < N)
-float run_stream(float *a, float *x, float *y, int N, int C) {
+float test_stream(float *a, float *x, float *y, int N, int C) {
   size_t C1 = C * sizeof(float);
 
   cudaEvent_t start, stop;

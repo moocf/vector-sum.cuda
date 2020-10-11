@@ -30,22 +30,22 @@ int main() {
   float exp = SUM_ARRAY(a, N); // 3
 
   printf("CPU vector-sum ...\n");            // 4
-  printrun(exp, a, N, run_host(a, x, y, N)); // 4
+  printrun(exp, a, N, test_host(a, x, y, N)); // 4
   
   printf("GPU vector-sum, simple ...\n");      // 4
-  printrun(exp, a, N, run_simple(a, x, y, N)); // 4
+  printrun(exp, a, N, test_simple(a, x, y, N)); // 4
 
   printf("GPU vector-sum, multiple ...\n");      // 4
-  printrun(exp, a, N, run_multiple(a, x, y, N)); // 4
+  printrun(exp, a, N, test_multiple(a, x, y, N)); // 4
 
   printf("GPU vector-sum, chunked with stream ...\n"); // 4
-  printrun(exp, a, N, run_stream(a, x, y, N, CHUNK));  // 4
+  printrun(exp, a, N, test_stream(a, x, y, N, CHUNK));  // 4
 
   printf("GPU vector-sum, chunked with streams ...\n"); // 4
-  printrun(exp, a, N, run_streams(a, x, y, N, CHUNK));  // 4
+  printrun(exp, a, N, test_streams(a, x, y, N, CHUNK));  // 4
 
   printf("GPU vector-sum, chunked with interleaved streams ...\n"); // 4
-  printrun(exp, a, N, run_streams_interleaved(a, x, y, N, CHUNK));  // 4
+  printrun(exp, a, N, test_streams_interleaved(a, x, y, N, CHUNK));  // 4
 
   free(y); // 5
   free(x); // 5

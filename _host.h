@@ -9,7 +9,7 @@
 // x: input vector 1
 // y: input vector 2
 // N: vector size (a, x, y)
-float run_host(float* a, float* x, float* y, int N) {
+float test_host(float* a, float* x, float* y, int N) {
   clock_t begin = clock();
   vector_sum(a, x, y, N);
   clock_t end = clock();

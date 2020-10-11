@@ -27,7 +27,7 @@ __global__ void kernel_simple(float *a, float *x, float *y, int N) {
 // x: input vector 1
 // y: input vector 2
 // N: vector size (a, x, y)
-float run_simple(float *a, float *x, float *y, int N) {
+float test_simple(float *a, float *x, float *y, int N) {
   size_t N1 = N * sizeof(float);
   
   cudaEvent_t start, stop;
