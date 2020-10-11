@@ -2,14 +2,16 @@
 #include "main.h"
 #include "_host.h"
 #include "_simple.h"
+#include "_multiple.h"
 
 
 // 1. Allocate space for 3 vectors A, X, Y (of length 1000000).
 // 2. Define vectors X and Y (A = X + Y will be computed).
 // 3. Calculate expected value for varifying results.
 // 4. Run vector sum on CPU.
-// 5. Run vector sume on GPU, simple.
-// 6. Free vectors A, X, Y.
+// 5. Run vector sum on GPU, simple.
+// 6. Run vector sum on GPU, multiple.
+// 7. Free vectors A, X, Y.
 int main() {
   int N = 1000000;                 // 1
   size_t N1 = N * sizeof(int);     // 1
@@ -31,8 +33,11 @@ int main() {
   printf("GPU vector-sum, simple ...\n");      // 5
   printrun(exp, a, N, run_simple(a, x, y, N)); // 5
 
-  free(y); // 6
-  free(x); // 6
-  free(a); // 6
+  printf("GPU vector-sum, multiple ...\n");      // 6
+  printrun(exp, a, N, run_multiple(a, x, y, N)); // 6
+
+  free(y); // 7
+  free(x); // 7
+  free(a); // 7
   return 0;
 }

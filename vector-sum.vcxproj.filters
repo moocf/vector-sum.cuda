@@ -12,6 +12,9 @@
       <Filter>Test cases</Filter>
     </ClInclude>
     <ClInclude Include="main.h" />
+    <ClInclude Include="_multiple.h">
+      <Filter>Test cases</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="LICENSE" />

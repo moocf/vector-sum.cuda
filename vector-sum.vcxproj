@@ -82,6 +82,7 @@
   <ItemGroup>
     <ClInclude Include="main.h" />
     <ClInclude Include="support.h" />
+    <ClInclude Include="_multiple.h" />
     <ClInclude Include="_host.h" />
     <ClInclude Include="_simple.h" />
   </ItemGroup>
