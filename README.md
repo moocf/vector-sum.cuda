@@ -11,32 +11,36 @@ main():
 ```
 
 ```bash
-# OUTPUT
-CPU vector-sum ...
-Execution time: 6.0 ms
+$ nvcc -std=c++17 -Xcompiler -O3 main.cu
+$ ./a.out
 
-GPU vector-sum, simple ...
-Execution time: 6.7 ms
-
-GPU vector-sum, multiple ...
-Execution time: 7.2 ms
-
-GPU vector-sum, chunked with stream ...
-Execution time: 8.9 ms
-
-GPU vector-sum, chunked with streams ...
-Execution time: 9.5 ms
-
-GPU vector-sum, chunked with interleaved streams ...
-Execution time: 7.2 ms
+# CPU vector-sum ...
+# Execution time: 0.0 ms
+#
+# GPU vector-sum, simple ...
+# Execution time: 6.2 ms
+#
+# GPU vector-sum, multiple ...
+# Execution time: 6.1 ms
+#
+# GPU vector-sum, chunked with stream ...
+# Execution time: 7.5 ms
+#
+# GPU vector-sum, chunked with streams ...
+# Execution time: 7.6 ms
+#
+# GPU vector-sum, chunked with interleaved streams ...
+# Execution time: 6.7 ms
 ```
 
-See [main.cu] for code, [main.ipynb] for notebook.
+See [main.cu] for code.
 
 [main.cu]: main.cu
-[main.ipynb]: https://colab.research.google.com/drive/1d8TouY8FdadWOxPPWVjemS5hekFUTqzB?usp=sharing
+
+<br>
+<br>
 
 
-### references
+## References
 
-- [CUDA by Example :: Jason Sanders, Edward Kandrot](http://www.mat.unimi.it/users/sansotte/cuda/CUDA_by_Example.pdf)
+- [CUDA by Example :: Jason Sanders, Edward Kandrot](https://gist.github.com/wolfram77/72c51e494eaaea1c21a9c4021ad0f320)
