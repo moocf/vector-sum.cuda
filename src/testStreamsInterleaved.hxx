@@ -1,8 +1,10 @@
 #pragma once
-#include <cuda_runtime.h>
-#include <device_launch_parameters.h>
-#include "support.h"
-#include "_multiple.h"
+#include <algorithm>
+#include "_main.hxx"
+#include "testMultiple.hxx"
+
+using std::min;
+using std::max;
 
 
 // Perform vector addition in a number of small chunks,
@@ -14,7 +16,7 @@
 // y: input vector 2
 // N: vector size (a, x, y)
 // C: chunk size (C < N)
-float test_streams_interleaved(float *a, float *x, float *y, int N, int C) {
+float testStreamsInterleaved(float *a, float *x, float *y, int N, int C) {
   size_t C1 = C * sizeof(float);
 
   cudaEvent_t start, stop;
@@ -38,8 +40,8 @@ float test_streams_interleaved(float *a, float *x, float *y, int N, int C) {
   TRY( cudaMalloc(&aD1, C1) );
 
   for (int i=0; i<N; i+=2*C) {
-    int c = MIN(C, N-i);
-    int d = MAX(0, MIN(C, N-i-C));
+    int c = min(C, N-i);
+    int d = max(0, min(C, N-i-C));
     size_t c1 = c * sizeof(int);
     size_t d1 = d * sizeof(int);
 
@@ -49,8 +51,8 @@ float test_streams_interleaved(float *a, float *x, float *y, int N, int C) {
     TRY( cudaMemcpyAsync(yD0, y+i, c1, cudaMemcpyHostToDevice, stream0) );
     TRY( cudaMemcpyAsync(yD1, y+C+i, d1, cudaMemcpyHostToDevice, stream1) );
 
-    kernel_multiple<<<64, 64, 0, stream0>>>(aD0, xD0, yD0, c);
-    kernel_multiple<<<64, 64, 0, stream1>>>(aD1, xD1, yD1, d);
+    kernelMultiple<<<64, 64, 0, stream0>>>(aD0, xD0, yD0, c);
+    kernelMultiple<<<64, 64, 0, stream1>>>(aD1, xD1, yD1, d);
 
     TRY( cudaMemcpyAsync(a+i, aD0, c1, cudaMemcpyDeviceToHost, stream0) );
     TRY( cudaMemcpyAsync(a+C+i, aD1, d1, cudaMemcpyDeviceToHost, stream1) );

@@ -1,22 +1,23 @@
 #pragma once
-#include <cuda_runtime.h>
-#include <device_launch_parameters.h>
-#include "support.h"
+#include <algorithm>
+#include "_main.hxx"
+
+using std::max;
 
 
 // Each thread can compute the sum of multiple components of vectors. Each
 // thread computes the sum of its respective component, and shifts by a
 // stride of the total number of vectors. This is done as long as it does
 // not exceed the length of the vectors.
-// 
+//
 // 1. Compute sum at respective index, while within bounds.
 // 2. Shift to the next component, by a stride of total no. of threads.
-// 
+//
 // threadIdx.x: thread index, within block (0 ... 1)
 // blockIdx.x:  block index, within grid (0 ... 1)
 // blockDim.x:  number of threads in a block (2)
 // i: index into the vectors
-__global__ void kernel_multiple(float *a, float *x, float *y, int N) {
+__global__ void kernelMultiple(float *a, float *x, float *y, int N) {
   int i = threadIdx.x + blockIdx.x * blockDim.x; // 1
   while (i < N) {                                // 1
     a[i] = x[i] + y[i];                          // 1
@@ -35,9 +36,9 @@ __global__ void kernel_multiple(float *a, float *x, float *y, int N) {
 // x: input vector 1
 // y: input vector 2
 // N: vector size (a, x, y)
-float test_multiple(float *a, float *x, float *y, int N) {
+float testMultiple(float *a, float *x, float *y, int N) {
   size_t N1 = N * sizeof(float);
-  
+
   cudaEvent_t start, stop;
   TRY( cudaEventCreate(&start) );
   TRY( cudaEventCreate(&stop) );
@@ -51,8 +52,8 @@ float test_multiple(float *a, float *x, float *y, int N) {
   TRY( cudaMemcpy(yD, y, N1, cudaMemcpyHostToDevice) ); // 2
 
   int threads = 256;                                   // 3
-  int blocks  = MAX(CEILDIV(N, threads), 4);           // 3
-  kernel_multiple<<<blocks, threads>>>(aD, xD, yD, N); // 3
+  int blocks  = max(ceilDiv(N, threads), 4);           // 3
+  kernelMultiple<<<blocks, threads>>>(aD, xD, yD, N); // 3
 
   float duration;
   TRY( cudaMemcpy(a, aD, N1, cudaMemcpyDeviceToHost) ); // 4

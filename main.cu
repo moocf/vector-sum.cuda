@@ -1,11 +1,10 @@
-#include <stdio.h>
-#include "main.h"
-#include "_host.h"
-#include "_simple.h"
-#include "_multiple.h"
-#include "_stream.h"
-#include "_streams.h"
-#include "_streams_interleaved.h"
+#include <cstdio>
+#include <cstdlib>
+#include "src/main.hxx"
+
+using std::printf;
+using std::malloc;
+using std::free;
 
 
 // 1. Allocate space for 3 vectors A, X, Y (of length 2000000).
@@ -26,26 +25,26 @@ int main() {
     y[i] = i * -0.1f;       // 2
   }
 
-  vector_sum(a, x, y, N);      // 3
-  float exp = SUM_ARRAY(a, N); // 3
+  vectorSum(a, x, y, N);      // 3
+  float exp = sum(a, N); // 3
 
   printf("CPU vector-sum ...\n");            // 4
-  printrun(exp, a, N, test_host(a, x, y, N)); // 4
-  
+  printRun(exp, a, N, testHost(a, x, y, N)); // 4
+
   printf("GPU vector-sum, simple ...\n");      // 4
-  printrun(exp, a, N, test_simple(a, x, y, N)); // 4
+  printRun(exp, a, N, testSimple(a, x, y, N)); // 4
 
   printf("GPU vector-sum, multiple ...\n");      // 4
-  printrun(exp, a, N, test_multiple(a, x, y, N)); // 4
+  printRun(exp, a, N, testMultiple(a, x, y, N)); // 4
 
   printf("GPU vector-sum, chunked with stream ...\n"); // 4
-  printrun(exp, a, N, test_stream(a, x, y, N, CHUNK));  // 4
+  printRun(exp, a, N, testStream(a, x, y, N, CHUNK));  // 4
 
   printf("GPU vector-sum, chunked with streams ...\n"); // 4
-  printrun(exp, a, N, test_streams(a, x, y, N, CHUNK));  // 4
+  printRun(exp, a, N, testStreams(a, x, y, N, CHUNK));  // 4
 
   printf("GPU vector-sum, chunked with interleaved streams ...\n"); // 4
-  printrun(exp, a, N, test_streams_interleaved(a, x, y, N, CHUNK));  // 4
+  printRun(exp, a, N, testStreamsInterleaved(a, x, y, N, CHUNK));  // 4
 
   free(y); // 5
   free(x); // 5

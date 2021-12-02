@@ -1,7 +1,5 @@
 #pragma once
-#include <cuda_runtime.h>
-#include <device_launch_parameters.h>
-#include "support.h"
+#include "_main.hxx"
 
 
 // Each thread computes the sum of a single component of vector.
@@ -11,7 +9,7 @@
 // blockIdx.x:  block index, within grid
 // blockDim.x:  number of threads in a block
 // i: index into the vectors
-__global__ void kernel_simple(float *a, float *x, float *y, int N) {
+__global__ void kernelSimple(float *a, float *x, float *y, int N) {
   int i = threadIdx.x + blockIdx.x * blockDim.x;
   if (i < N) a[i] = x[i] + y[i];
 }
@@ -27,9 +25,9 @@ __global__ void kernel_simple(float *a, float *x, float *y, int N) {
 // x: input vector 1
 // y: input vector 2
 // N: vector size (a, x, y)
-float test_simple(float *a, float *x, float *y, int N) {
+float testSimple(float *a, float *x, float *y, int N) {
   size_t N1 = N * sizeof(float);
-  
+
   cudaEvent_t start, stop;
   TRY( cudaEventCreate(&start) );
   TRY( cudaEventCreate(&stop) );
@@ -43,8 +41,8 @@ float test_simple(float *a, float *x, float *y, int N) {
   TRY( cudaMemcpy(yD, y, N1, cudaMemcpyHostToDevice) ); // 2
 
   int threads = 256;                                 // 3
-  int blocks  = CEILDIV(N, threads);                 // 3
-  kernel_simple<<<blocks, threads>>>(aD, xD, yD, N); // 3
+  int blocks  = ceilDiv(N, threads);                 // 3
+  kernelSimple<<<blocks, threads>>>(aD, xD, yD, N); // 3
 
   float duration;
   TRY( cudaMemcpy(a, aD, N1, cudaMemcpyDeviceToHost) ); // 4

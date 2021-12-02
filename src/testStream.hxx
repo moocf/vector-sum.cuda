@@ -1,8 +1,9 @@
 #pragma once
-#include <cuda_runtime.h>
-#include <device_launch_parameters.h>
-#include "support.h"
-#include "_multiple.h"
+#include <algorithm>
+#include "_main.hxx"
+#include "testMultiple.hxx"
+
+using std::min;
 
 
 // Perform vector addition in a number of small chunks,
@@ -13,7 +14,7 @@
 // y: input vector 2
 // N: vector size (a, x, y)
 // C: chunk size (C < N)
-float test_stream(float *a, float *x, float *y, int N, int C) {
+float testStream(float *a, float *x, float *y, int N, int C) {
   size_t C1 = C * sizeof(float);
 
   cudaEvent_t start, stop;
@@ -30,15 +31,15 @@ float test_stream(float *a, float *x, float *y, int N, int C) {
   TRY( cudaMalloc(&yD, C1) );
 
   for (int i=0; i<N; i+=C) {
-    int c = MIN(C, N-i);
+    int c = min(C, N-i);
     size_t c1 = c * sizeof(float);
 
     TRY( cudaMemcpyAsync(xD, x+i, c1, cudaMemcpyHostToDevice, stream) );
     TRY( cudaMemcpyAsync(yD, y+i, c1, cudaMemcpyHostToDevice, stream) );
-    kernel_multiple<<<64, 64, 0, stream>>>(aD, xD, yD, c);
+    kernelMultiple<<<64, 64, 0, stream>>>(aD, xD, yD, c);
     TRY( cudaMemcpyAsync(a+i, aD, c1, cudaMemcpyDeviceToHost, stream) );
   }
-  
+
   float duration;
   TRY( cudaStreamSynchronize(stream) );
   TRY( cudaEventRecord(stop, 0) );
